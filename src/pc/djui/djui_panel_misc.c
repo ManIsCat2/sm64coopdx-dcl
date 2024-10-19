@@ -48,14 +48,37 @@ static void djui_panel_options_open_user_folder(UNUSED struct DjuiBase* caller) 
 #endif
 }
 
+void djui_panel_d_mods_create_hud_gui(struct DjuiBase* caller) {
+    struct DjuiThreePanel* panel = djui_panel_menu_create("HUD and GUI", false);
+    struct DjuiBase* body = djui_three_panel_get_body(panel);
+    {
+        djui_checkbox_create(body, "Hide Chat Messages", &configHideChatMsgs, NULL);
+        djui_checkbox_create(body, "Show Ping", &configShowPing, NULL);
+        djui_button_create(body, DLANG(MENU, BACK), DJUI_BUTTON_STYLE_BACK, djui_panel_menu_back);
+    }
+
+    djui_panel_add(caller, panel, NULL);
+}
+
+void djui_panel_d_mods_create_graphics(struct DjuiBase* caller) {
+    struct DjuiThreePanel* panel = djui_panel_menu_create("Graphics", false);
+    struct DjuiBase* body = djui_three_panel_get_body(panel);
+    {
+        djui_checkbox_create(body, "Full Bright", &configFullBright, NULL);
+        djui_checkbox_create(body, "Disable Particles", &configDisableParticles, NULL);
+        djui_checkbox_create(body, "Disable Billboards", &configDisableBillboards, NULL);
+        djui_button_create(body, DLANG(MENU, BACK), DJUI_BUTTON_STYLE_BACK, djui_panel_menu_back);
+    }
+
+    djui_panel_add(caller, panel, NULL);
+}
+
 void djui_panel_d_mods_create(struct DjuiBase* caller) {
     struct DjuiThreePanel* panel = djui_panel_menu_create("Dream Client Mods", false);
     struct DjuiBase* body = djui_three_panel_get_body(panel);
     {
-        djui_checkbox_create(body, "Full Bright", &configFullBright, NULL);
-        djui_checkbox_create(body, "Show Ping", &configShowPing, NULL);
-        djui_checkbox_create(body, "Disable Particles", &configDisableParticles, NULL);
-        djui_checkbox_create(body, "Faster Math", &configFasterMathFunctions, NULL);
+        djui_button_create(body, "HUD and GUI", DJUI_BUTTON_STYLE_NORMAL, djui_panel_d_mods_create_hud_gui);
+        djui_button_create(body, "Graphics", DJUI_BUTTON_STYLE_NORMAL, djui_panel_d_mods_create_graphics);
         djui_button_create(body, DLANG(MENU, BACK), DJUI_BUTTON_STYLE_BACK, djui_panel_menu_back);
     }
 

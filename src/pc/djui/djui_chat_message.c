@@ -70,6 +70,7 @@ void djui_chat_message_create_from(u8 globalIndex, const char* message) {
 }
 
 void djui_chat_message_create(const char* message) {
+    if (!configHideChatMsgs) {
     if (gDjuiChatBox == NULL || gDjuiChatBox->chatFlow == NULL) { return; }
     struct DjuiChatMessage* chatMessage = calloc(1, sizeof(struct DjuiChatMessage));
     struct DjuiBase* base = &chatMessage->base;
@@ -104,4 +105,5 @@ void djui_chat_message_create(const char* message) {
     // figure out chat message width
     f32 messageWidth = djui_text_find_width(chatText, 10);
     chatMessage->messageWidth = messageWidth + 8;
+    }
 }

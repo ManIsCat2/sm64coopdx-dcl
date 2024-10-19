@@ -617,7 +617,6 @@ void mtxf_align_terrain_triangle(Mat4 mtx, Vec3f pos, s16 yaw, f32 radius) {
  */
 void mtxf_mul(Mat4 dest, Mat4 a, Mat4 b) {
     Mat4 temp;
-    if (!configFasterMathFunctions) {
     register f32 entry0;
     register f32 entry1;
     register f32 entry2;
@@ -656,25 +655,6 @@ void mtxf_mul(Mat4 dest, Mat4 a, Mat4 b) {
 
     temp[0][3] = temp[1][3] = temp[2][3] = 0;
     temp[3][3] = 1;
-
-    } else {
-
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            temp[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j];
-        }
-    }
-
-    // Handle the fourth row separately
-    temp[3][0] = a[3][0] * b[0][0] + a[3][1] * b[1][0] + a[3][2] * b[2][0] + b[3][0];
-    temp[3][1] = a[3][0] * b[0][1] + a[3][1] * b[1][1] + a[3][2] * b[2][1] + b[3][1];
-    temp[3][2] = a[3][0] * b[0][2] + a[3][1] * b[1][2] + a[3][2] * b[2][2] + b[3][2];
-
-    // Set the last column
-    temp[0][3] = temp[1][3] = temp[2][3] = 0;
-    temp[3][3] = 1;
-    
-    }
 
     mtxf_copy(dest, temp);
 }

@@ -763,10 +763,17 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
     s16 nextMatStackIndex = gMatStackIndex + 1;
 
     vec3s_to_vec3f(translation, node->translation);
+    if (!configDisableBillboards) {
     mtxf_billboard(gMatStack[nextMatStackIndex], gMatStack[gMatStackIndex], translation,
                    gCurGraphNodeCamera->roll);
     mtxf_billboard(gMatStackPrev[nextMatStackIndex], gMatStackPrev[gMatStackIndex], translation,
                    gCurGraphNodeCamera->roll);
+    
+
+    // Increment the matrix stack, If we fail to do so. Just return.
+    if (!increment_mat_stack()) { return; }
+    }
+
     if (gCurGraphNodeHeldObject != NULL) {
         mtxf_scale_vec3f(gMatStack[nextMatStackIndex], gMatStack[nextMatStackIndex],
                          gCurGraphNodeHeldObject->objNode->header.gfx.scale);
@@ -781,16 +788,15 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
         //LOG_ERROR("gCurGraphNodeObject and gCurGraphNodeHeldObject are both NULL!");
     }
 
-    // Increment the matrix stack, If we fail to do so. Just return.
-    if (!increment_mat_stack()) { return; }
-
     if (node->displayList != NULL) {
         geo_append_display_list(node->displayList, node->node.flags >> 8);
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
     }
+    if (!configDisableBillboards) {
     gMatStackIndex--;
+    }
 }
 
 /**
@@ -1210,6 +1216,29 @@ static s32 obj_is_in_view(struct GraphNodeObject *node, Mat4 matrix) {
     return TRUE;
 }
 
+void do_normal_object_no_prop(Mat4 mtxf, struct Object*node) {
+            Vec3f posPrev;
+            Vec3s anglePrev;
+
+            if (gGlobalTimer == node->header.gfx.prevTimestamp + 1 &&
+                gGlobalTimer != node->header.gfx.skipInterpolationTimestamp &&
+                gGlobalTimer != gLakituState.skipCameraInterpolationTimestamp) {
+                vec3f_copy(posPrev, node->header.gfx.prevPos);
+                vec3s_copy(anglePrev, node->header.gfx.prevAngle);
+            } else {
+                vec3f_copy(posPrev, node->header.gfx.pos);
+                vec3s_copy(anglePrev, node->header.gfx.angle);
+            }
+
+            vec3f_copy(node->header.gfx.prevPos, node->header.gfx.pos);
+            vec3s_copy(node->header.gfx.prevAngle, node->header.gfx.angle);
+            node->header.gfx.prevTimestamp = gGlobalTimer;
+            mtxf_rotate_zxy_and_translate(mtxf, node->header.gfx.pos, node->header.gfx.angle);
+            mtxf_mul(gMatStack[gMatStackIndex + 1], mtxf, gMatStack[gMatStackIndex]);
+            mtxf_rotate_zxy_and_translate(mtxf, posPrev, anglePrev);
+            mtxf_mul(gMatStackPrev[gMatStackIndex + 1], mtxf, gMatStackPrev[gMatStackIndex]);
+            }
+
 /**
  * Process an object node.
  */
@@ -1287,7 +1316,9 @@ static void geo_process_object(struct Object *node) {
                            posPrev, gCurGraphNodeCamera->roll);
 
         } else if ((node->header.gfx.node.flags & GRAPH_RENDER_BILLBOARD) && !(node->header.gfx.sharedChild && node->header.gfx.sharedChild->extraFlags & GRAPH_EXTRA_FORCE_3D)) {
-
+            if (configDisableBillboards) {
+            do_normal_object_no_prop(mtxf,node);
+            } else {
             Vec3f posPrev;
 
             if (gGlobalTimer == node->header.gfx.prevTimestamp + 1 &&
@@ -1304,6 +1335,7 @@ static void geo_process_object(struct Object *node) {
                            node->header.gfx.pos, gCurGraphNodeCamera->roll);
             mtxf_billboard(gMatStackPrev[gMatStackIndex + 1], gMatStackPrev[gMatStackIndex],
                            posPrev, gCurGraphNodeCamera->roll);
+            }
 
         } else {
 

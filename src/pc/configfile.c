@@ -192,6 +192,8 @@ bool         configFullBright                     = false;
 bool         configShowPing                       = false;
 bool         configDisableParticles                       = false;
 bool         configFasterMathFunctions                     = false;
+bool         configHideChatMsgs = false;
+bool         configDisableBillboards = false;
 
 // secrets
 bool configExCoopTheme = false;
@@ -327,6 +329,8 @@ static const struct ConfigOption options[] = {
     {.name = "show_ping",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configShowPing},
     {.name = "disable_particles",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configDisableParticles},
     {.name = "fast_math",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configFasterMathFunctions},
+    {.name = "hide_chat",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configHideChatMsgs},
+    {.name = "disable_bills",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configDisableBillboards},
 };
 
 struct SecretConfigOption {

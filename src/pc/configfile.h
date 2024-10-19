@@ -141,6 +141,8 @@ extern bool         configFullBright;
 extern bool         configShowPing;
 extern bool         configDisableParticles;
 extern bool configFasterMathFunctions;
+extern bool configHideChatMsgs;
+extern bool configDisableBillboards;
 // secrets
 extern bool configExCoopTheme;
 
