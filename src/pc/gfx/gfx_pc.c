@@ -792,9 +792,17 @@ static void OPTIMIZE_O3 gfx_sp_vertex(size_t n_vertices, size_t dest_index, cons
                 rsp.lights_changed = false;
             }
 
-            int r = rsp.current_lights[rsp.current_num_lights - 1].col[0] * gLightingColor[1][0] / 255.0f;
-            int g = rsp.current_lights[rsp.current_num_lights - 1].col[1] * gLightingColor[1][1] / 255.0f;
-            int b = rsp.current_lights[rsp.current_num_lights - 1].col[2] * gLightingColor[1][2] / 255.0f;
+            int r,g,b=0;
+
+            if (configFullBright) {
+                 r = rsp.current_lights[rsp.current_num_lights - 1].col[0] * 5;
+                 g = rsp.current_lights[rsp.current_num_lights - 1].col[1] * 5;;
+                 b = rsp.current_lights[rsp.current_num_lights - 1].col[2] * 5 ;
+            } else {
+                 r = rsp.current_lights[rsp.current_num_lights - 1].col[0] * gLightingColor[1][0] / 255.0f;
+                 g = rsp.current_lights[rsp.current_num_lights - 1].col[1] * gLightingColor[1][1] / 255.0f;
+                 b = rsp.current_lights[rsp.current_num_lights - 1].col[2] * gLightingColor[1][2] / 255.0f;
+            }
 
             for (int32_t i = 0; i < rsp.current_num_lights - 1; i++) {
                 float intensity = 0;
@@ -803,9 +811,15 @@ static void OPTIMIZE_O3 gfx_sp_vertex(size_t n_vertices, size_t dest_index, cons
                 intensity += vn->n[2] * rsp.current_lights_coeffs[i][2];
                 intensity /= 127.0f;
                 if (intensity > 0.0f) {
-                    r += intensity * rsp.current_lights[i].col[0] * gLightingColor[0][0] / 255.0f;
-                    g += intensity * rsp.current_lights[i].col[1] * gLightingColor[0][1] / 255.0f;
-                    b += intensity * rsp.current_lights[i].col[2] * gLightingColor[0][2] / 255.0f;
+                    if (configFullBright) {
+                        r += intensity * rsp.current_lights[i].col[0] * 0;
+                        g += intensity * rsp.current_lights[i].col[1] * 0;
+                        b += intensity * rsp.current_lights[i].col[2] * 0;
+                    } else {
+                        r += intensity * rsp.current_lights[i].col[0] * gLightingColor[0][0] / 255.0f;
+                        g += intensity * rsp.current_lights[i].col[1] * gLightingColor[0][1] / 255.0f;
+                        b += intensity * rsp.current_lights[i].col[2] * gLightingColor[0][2] / 255.0f;
+                    }
                 }
             }
 

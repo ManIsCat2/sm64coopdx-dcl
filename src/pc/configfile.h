@@ -136,7 +136,11 @@ extern unsigned int configDjuiScale;
 // other
 extern unsigned int configRulesVersion;
 extern bool         configCompressOnStartup;
-
+//dream client
+extern bool         configFullBright;
+extern bool         configShowPing;
+extern bool         configDisableParticles;
+extern bool configFasterMathFunctions;
 // secrets
 extern bool configExCoopTheme;
 

@@ -187,6 +187,11 @@ unsigned int configDjuiScale                      = 0;
 // other
 unsigned int configRulesVersion                   = 0;
 bool         configCompressOnStartup              = false;
+//dream client
+bool         configFullBright                     = false;
+bool         configShowPing                       = false;
+bool         configDisableParticles                       = false;
+bool         configFasterMathFunctions                     = false;
 
 // secrets
 bool configExCoopTheme = false;
@@ -317,6 +322,11 @@ static const struct ConfigOption options[] = {
     // other
     {.name = "rules_version",                  .type = CONFIG_TYPE_UINT,   .uintValue   = &configRulesVersion},
     {.name = "compress_on_startup",            .type = CONFIG_TYPE_BOOL,   .boolValue   = &configCompressOnStartup},
+    //dream client
+    {.name = "full_bright",            .type = CONFIG_TYPE_BOOL,   .boolValue   = &configFullBright},
+    {.name = "show_ping",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configShowPing},
+    {.name = "disable_particles",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configDisableParticles},
+    {.name = "fast_math",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configFasterMathFunctions},
 };
 
 struct SecretConfigOption {

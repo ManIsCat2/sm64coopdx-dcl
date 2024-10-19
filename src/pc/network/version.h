@@ -2,6 +2,7 @@
 #define VERSION_H
 
 #define SM64COOPDX_VERSION "v1.0.3"
+#define D_CL_VER "v0.1"
 
 // internal version
 #define VERSION_TEXT "v"
@@ -23,7 +24,7 @@
 #elif !defined(VERSION_US)
     #define GAME_NAME "sm64coopdx-intl"
 #else
-    #define GAME_NAME "sm64coopdx"
+    #define GAME_NAME "Dream Client " D_CL_VER
 #endif
 
 #define MAX_VERSION_LENGTH 32

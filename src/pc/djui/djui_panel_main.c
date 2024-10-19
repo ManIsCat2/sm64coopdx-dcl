@@ -7,6 +7,7 @@
 #include "djui_panel_confirm.h"
 #include "pc/controller/controller_sdl.h"
 #include "pc/pc_main.h"
+#include "djui_hud_utils.h"
 #include "pc/update_checker.h"
 
 extern ALIGNED8 u8 texture_coopdx_logo[];
@@ -23,6 +24,8 @@ static void djui_panel_main_quit(struct DjuiBase* caller) {
                               DLANG(MAIN, QUIT_CONFIRM),
                               djui_panel_main_quit_yes);
 }
+
+u8 DC_v[64] = { "Dream Client v0.1" };
 
 void djui_panel_main_create(struct DjuiBase* caller) {
     struct DjuiThreePanel* panel = djui_panel_menu_create(configExCoopTheme ? "\\#ff0800\\SM\\#1be700\\64\\#00b3ff\\EX\n\\#ffef00\\COOP" : "", false);
@@ -61,11 +64,9 @@ void djui_panel_main_create(struct DjuiBase* caller) {
             djui_base_set_color(&message->base, 255, 255, 160, 255);
             djui_text_set_alignment(message, DJUI_HALIGN_CENTER, DJUI_VALIGN_BOTTOM);
         } else {
-            struct DjuiText* version = djui_text_create(&panel->base, get_version());
-            djui_base_set_size_type(&version->base, DJUI_SVT_RELATIVE, DJUI_SVT_ABSOLUTE);
-            djui_base_set_size(&version->base, 1.0f, 1.0f);
-            djui_base_set_color(&version->base, 50, 50, 50, 255);
-            djui_text_set_alignment(version, DJUI_HALIGN_RIGHT, DJUI_VALIGN_BOTTOM);
+           // djui_hud_set_font(FONT_NORMAL);
+            //djui_hud_set_resolution(RESOLUTION_N64);
+         //  djui_hud_print_text("Dream Client v0.1", djui_hud_get_screen_width() /2, djui_hud_get_screen_height()/2, 1);
         }
     }
 

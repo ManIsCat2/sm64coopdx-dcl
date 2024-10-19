@@ -108,11 +108,16 @@ void scale_bubble_sin(void) {
     o->oWaterObjUnkF8 += o->oWaterObjUnk100;
 }
 
+extern bool configDisableParticles;
+
 void bhv_particle_init(void) {
     obj_scale_xyz(o, 2.0f, 2.0f, 1.0f);
     o->oWaterObjUnkFC = 0x800 + (s32)(random_float() * 2048.0f);
     o->oWaterObjUnk100 = 0x800 + (s32)(random_float() * 2048.0f);
     obj_translate_xyz_random(o, 100.0f);
+    if (configDisableParticles) {
+        obj_mark_for_deletion(o);
+    }
 }
 
 void bhv_particle_loop() {
