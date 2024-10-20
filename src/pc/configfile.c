@@ -194,6 +194,7 @@ bool         configDisableParticles                       = false;
 bool         configFasterMathFunctions                     = false;
 bool         configHideChatMsgs = false;
 bool         configDisableBillboards = false;
+bool         configDisableShadows = false;
 
 // secrets
 bool configExCoopTheme = false;
@@ -331,6 +332,7 @@ static const struct ConfigOption options[] = {
     {.name = "fast_math",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configFasterMathFunctions},
     {.name = "hide_chat",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configHideChatMsgs},
     {.name = "disable_bills",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configDisableBillboards},
+     {.name = "disable_shadows",              .type = CONFIG_TYPE_BOOL,   .boolValue   = &configDisableShadows},
 };
 
 struct SecretConfigOption {

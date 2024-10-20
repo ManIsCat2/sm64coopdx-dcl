@@ -64,9 +64,10 @@ void djui_panel_d_mods_create_graphics(struct DjuiBase* caller) {
     struct DjuiThreePanel* panel = djui_panel_menu_create("Graphics", false);
     struct DjuiBase* body = djui_three_panel_get_body(panel);
     {
-        djui_checkbox_create(body, "Full Bright", &configFullBright, NULL);
         djui_checkbox_create(body, "Disable Particles", &configDisableParticles, NULL);
         djui_checkbox_create(body, "Disable Billboards", &configDisableBillboards, NULL);
+        djui_checkbox_create(body, "Disable Shadows", &configDisableShadows, NULL);
+        djui_checkbox_create(body, "Full Bright", &configFullBright, NULL);
         djui_button_create(body, DLANG(MENU, BACK), DJUI_BUTTON_STYLE_BACK, djui_panel_menu_back);
     }
 

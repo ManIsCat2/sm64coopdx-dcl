@@ -143,6 +143,7 @@ extern bool         configDisableParticles;
 extern bool configFasterMathFunctions;
 extern bool configHideChatMsgs;
 extern bool configDisableBillboards;
+extern bool configDisableShadows;
 // secrets
 extern bool configExCoopTheme;
 

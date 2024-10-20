@@ -761,9 +761,8 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
     if ((gMatStackIndex + 1) >= MATRIX_STACK_SIZE) { LOG_ERROR("Preventing attempt to exceed the maximum size %i for our matrix stack with size of %i.", MATRIX_STACK_SIZE - 1, gMatStackIndex); return; }
 
     s16 nextMatStackIndex = gMatStackIndex + 1;
-
-    vec3s_to_vec3f(translation, node->translation);
     if (!configDisableBillboards) {
+    vec3s_to_vec3f(translation, node->translation);
     mtxf_billboard(gMatStack[nextMatStackIndex], gMatStack[gMatStackIndex], translation,
                    gCurGraphNodeCamera->roll);
     mtxf_billboard(gMatStackPrev[nextMatStackIndex], gMatStackPrev[gMatStackIndex], translation,
@@ -772,7 +771,7 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
 
     // Increment the matrix stack, If we fail to do so. Just return.
     if (!increment_mat_stack()) { return; }
-    }
+    
 
     if (gCurGraphNodeHeldObject != NULL) {
         mtxf_scale_vec3f(gMatStack[nextMatStackIndex], gMatStack[nextMatStackIndex],
@@ -786,6 +785,7 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
                          gCurGraphNodeObject->scale);
     } else {
         //LOG_ERROR("gCurGraphNodeObject and gCurGraphNodeHeldObject are both NULL!");
+    }
     }
 
     if (node->displayList != NULL) {
@@ -1022,7 +1022,7 @@ static void geo_process_shadow(struct GraphNodeShadow *node) {
 
     // Sanity check our stack index, If we above or equal to our stack size. Return to prevent OOB\.
     if ((gMatStackIndex + 1) >= MATRIX_STACK_SIZE) { LOG_ERROR("Preventing attempt to exceed the maximum size %i for our matrix stack with size of %i.", MATRIX_STACK_SIZE - 1, gMatStackIndex); return; }
-
+    if (!configDisableShadows) {
     if (gCurGraphNodeCamera != NULL && gCurGraphNodeObject != NULL) {
         if (gCurGraphNodeHeldObject != NULL) {
             get_pos_from_transform_mtx(gCurGraphNodeObject->shadowPos, gMatStack[gMatStackIndex],
@@ -1123,6 +1123,7 @@ static void geo_process_shadow(struct GraphNodeShadow *node) {
             }
             gMatStackIndex--;
         }
+    }
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
